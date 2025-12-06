@@ -1,0 +1,32 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import Dashboard from './pages/Dashboard';
+import Editor from './pages/Editor';
+
+// Placeholder for other routes
+const Placeholder = ({ title }) => (
+  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+    <h2>{title}</h2>
+    <p>This feature is coming soon.</p>
+  </div>
+);
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="editor" element={<Editor />} />
+          <Route path="drafts" element={<Placeholder title="My Drafts" />} />
+          <Route path="research" element={<Placeholder title="Legal Research" />} />
+          <Route path="chat" element={<Placeholder title="AI Chat" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;

@@ -1,0 +1,513 @@
+.editor-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.editor-toolbar {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    background: white;
+    position: relative;
+    z-index: 50;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 4px;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+}
+
+.font-select,
+.size-select {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.tool-btn {
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.tool-btn:hover {
+    background: #f1f5f9;
+    color: var(--text-main);
+}
+
+.spacer {
+    flex: 1;
+}
+
+.toolbar-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+}
+
+/* Editor Layout */
+.editor-layout {
+    flex: 1;
+    display: flex;
+    gap: var(--spacing-md);
+    height: calc(100vh - 120px);
+    /* Adjusted for removed header */
+    overflow: hidden;
+}
+
+.editor-sidebar {
+    width: 300px;
+    background: white;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editor-sidebar.left {
+    width: 280px;
+}
+
+.editor-sidebar.right {
+    width: 320px;
+}
+
+.editor-sidebar.collapsed {
+    width: 48px;
+}
+
+.sidebar-title {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 57px;
+    /* Fixed height to match collapsed state */
+}
+
+.editor-sidebar.collapsed .sidebar-title {
+    justify-content: center;
+    padding: var(--spacing-md) 0;
+}
+
+.toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-btn:hover {
+    background: #f1f5f9;
+    color: var(--primary);
+}
+
+.sidebar-title h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sidebar-header-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+}
+
+.badge {
+    background: #fee2e2;
+    color: #ef4444;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.placeholders-list {
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.placeholder-item label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.placeholder-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.placeholder-item input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+/* Document Main */
+.editor-main {
+    flex: 1;
+    background: #e2e8f0;
+    border-radius: var(--radius-lg);
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+}
+
+/* Zoom Controls - Fixed at bottom right */
+.zoom-controls-container {
+    position: fixed;
+    bottom: 24px;
+    right: 360px;
+    z-index: 100;
+}
+
+/* Adjust when right sidebar is collapsed */
+.editor-layout:has(.editor-sidebar.right.collapsed) .zoom-controls-container {
+    right: 80px;
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.15);
+}
+
+.zoom-controls button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.zoom-controls button:hover {
+    background: #f1f5f9;
+    color: var(--primary);
+}
+
+.zoom-controls .zoom-level {
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 45px;
+    text-align: center;
+}
+
+.zoom-controls .divider {
+    width: 1px;
+    height: 16px;
+    background: var(--border);
+    margin: 0 4px;
+}
+
+/* Document stats */
+.document-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-right: 12px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+.document-stats .divider {
+    color: var(--border);
+}
+
+/* Zoom wrapper for proper scroll when zoomed */
+.zoom-wrapper {
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Pages wrapper for multi-page support */
+.pages-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Individual A4 page - matches DocumentPreview.tsx exactly */
+.document-page {
+    position: relative;
+    box-sizing: border-box;
+    width: 816px;
+    height: 1056px;
+    /* FIXED height, not min-height */
+    padding: 72px;
+    overflow: hidden;
+    /* Critical: hide overflow so content moves to next page */
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Editor root inside each page */
+.editor-root {
+    outline: none;
+    white-space: normal;
+    line-height: 1.6;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    /* Min height to allow clicking anywhere to edit */
+    font-size: 12pt;
+    color: black;
+}
+
+.editor-root p {
+    margin: 0 0 0.5em 0;
+    max-width: 100%;
+}
+
+/* Remove top margin from first paragraph */
+.editor-root p:first-child {
+    margin-top: 0;
+}
+
+.document-page h1,
+.editor-root h1 {
+    text-align: center;
+    font-size: 16pt;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.document-page p {
+    margin-bottom: 0.5em;
+}
+
+.variable {
+    background-color: rgba(79, 70, 229, 0.1);
+    border-bottom: 2px solid var(--primary);
+    padding: 0 4px;
+    border-radius: 4px;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* Chat Sidebar */
+.chat-header {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    height: 57px;
+}
+
+.editor-sidebar.collapsed .chat-header {
+    justify-content: center;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.tab.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    background: rgba(79, 70, 229, 0.05);
+}
+
+.chat-messages {
+    flex: 1;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.message {
+    display: flex;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.ai {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.message.user .message-bubble {
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.message.ai .message-bubble {
+    background: #f1f5f9;
+    color: var(--text-main);
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-area {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--border);
+    background: white;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 4px 4px 16px;
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    padding: 8px 0;
+}
+
+.input-wrapper input:focus {
+    outline: none;
+}
+
+.send-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+}
+
+.export-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 4px;
+    min-width: 160px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+}
+
+.export-menu button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.export-menu button:hover {
+    background: #f1f5f9;
+    color: var(--primary);
+}
+
+/* Notes Area */
+.notes-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-md);
+    height: 100%;
+}
+
+.notes-input {
+    flex: 1;
+    width: 100%;
+    resize: none;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    outline: none;
+}
+
+.notes-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
